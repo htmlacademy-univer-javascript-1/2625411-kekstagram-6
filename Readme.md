@@ -1,7 +1,7 @@
 # Личный проект «Кекстаграм»
 
 * Студент: [Александр Черепанов](https://up.htmlacademy.ru/univer-js1/6/user/2625411).
-* Наставник: `Неизвестно`.
+* Наставник: [Владимир Вавщик](https://htmlacademy.ru/profile/id1610171).
 
 ---
 
@@ -12,7 +12,7 @@ _`.editorconfig`, `.eslintrc`, `.gitattributes`, `.gitignore`, `package-lock.jso
 
 [Как работать с Git на проекте](Contributing.md) | [Как работать над проектом](Workflow.md)
 
-### Памятка
+### Паамятка
 
 #### 1. Зарегистрируйтесь на Гитхабе
 
