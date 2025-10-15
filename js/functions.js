@@ -35,3 +35,25 @@ console.log(`'ДовОд': ${isStringAPalindrome('ДовОд')}`);
 console.log(`'Кекс': ${isStringAPalindrome('Кекс')}`);
 console.log(`'Лёша на полке клопа нашёл ': ${isStringAPalindrome('Лёша на полке клопа нашёл ')}`);
 console.log(`'А роза упала на лапу Азора': ${isStringAPalindrome('А роза упала на лапу Азора')}`);
+
+// Делу - время
+const isMeetingInWorkDay = (workStart, workEnd, meetingStart, duration) => {
+
+  const timeToMinutes = (timeString) => {
+    const parts = timeString.split(':');
+    const hours = parseInt(parts[0], 10);
+    const minutes = parseInt(parts[1], 10);
+    return hours * 60 + minutes;
+  };
+
+  const workStartMinutes = timeToMinutes(workStart);
+  const workEndMinutes = timeToMinutes(workEnd);
+  const meetingStartMinutes = timeToMinutes(meetingStart);
+
+  const meetingEndMinutes = meetingStartMinutes + duration;
+
+  const isStartValid = meetingStartMinutes >= workStartMinutes;
+  const isEndValid = meetingEndMinutes <= workEndMinutes;
+
+  return isStartValid && isEndValid;
+};
