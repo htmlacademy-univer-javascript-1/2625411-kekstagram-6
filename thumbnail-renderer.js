@@ -1,3 +1,5 @@
+import { fullscreenViewer } from './fullscreen-viewer.js';
+
 const thumbnailRenderer = (function() {
   const pictureTemplate = document.querySelector('#picture').content.querySelector('.picture');
 
@@ -8,8 +10,13 @@ const thumbnailRenderer = (function() {
     image.src = photoData.url;
     image.alt = photoData.description;
 
-    thumbnailElement.querySelector('.picture__likes').textContent = photoData.likes;
     thumbnailElement.querySelector('.picture__comments').textContent = photoData.comments.length;
+    thumbnailElement.querySelector('.picture__likes').textContent = photoData.likes;
+
+    thumbnailElement.addEventListener('click', (evt) => {
+      evt.preventDefault();
+      fullscreenViewer.openFullscreen(photoData);
+    });
 
     thumbnailElement.dataset.photoId = photoData.id;
 

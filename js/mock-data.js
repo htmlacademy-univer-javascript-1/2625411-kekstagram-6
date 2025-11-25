@@ -5,8 +5,18 @@ const mockPhotos = [
     description: 'Красивый закат на море',
     likes: 156,
     comments: [
-      { id: 1, text: 'Отличное фото!', author: 'user1' },
-      { id: 2, text: 'Очень красиво', author: 'user2' }
+      {
+        id: 1,
+        avatar: 'img/avatar-1.svg',
+        name: 'Анна',
+        message: 'Отличное фото!'
+      },
+      {
+        id: 2,
+        avatar: 'img/avatar-2.svg',
+        name: 'Михаил',
+        message: 'Очень красиво'
+      }
     ]
   },
   {
@@ -15,7 +25,12 @@ const mockPhotos = [
     description: 'Горный пейзаж',
     likes: 89,
     comments: [
-      { id: 3, text: 'Великолепно!', author: 'user3' }
+      {
+        id: 3,
+        avatar: 'img/avatar-3.svg',
+        name: 'Сергей',
+        message: 'Великолепно!'
+      }
     ]
   },
   {
@@ -24,9 +39,24 @@ const mockPhotos = [
     description: 'Город ночью',
     likes: 234,
     comments: [
-      { id: 4, text: 'Классный кадр!', author: 'user4' },
-      { id: 5, text: 'Люблю ночные фото', author: 'user5' },
-      { id: 6, text: 'Отличное качество', author: 'user6' }
+      {
+        id: 4,
+        avatar: 'img/avatar-4.svg',
+        name: 'Елена',
+        message: 'Классный кадр!'
+      },
+      {
+        id: 5,
+        avatar: 'img/avatar-5.svg',
+        name: 'Дмитрий',
+        message: 'Люблю ночные фото'
+      },
+      {
+        id: 6,
+        avatar: 'img/avatar-6.svg',
+        name: 'Ольга',
+        message: 'Отличное качество'
+      }
     ]
   }
 ];
