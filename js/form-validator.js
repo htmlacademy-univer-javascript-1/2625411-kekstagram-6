@@ -1,3 +1,5 @@
+import { imageEditor } from './image-editor.js';
+
 const formValidator = (function() {
   const uploadForm = document.querySelector('.img-upload__form');
   const uploadInput = document.querySelector('.img-upload__input');
@@ -20,6 +22,7 @@ const formValidator = (function() {
   function init() {
     setupEventListeners();
     setupValidation();
+    imageEditor.init();
   }
 
   function setupEventListeners() {
@@ -139,6 +142,7 @@ const formValidator = (function() {
   function resetForm() {
     uploadForm.reset();
     pristine.reset();
+    imageEditor.resetEditor();
   }
 
   function onUploadCancelClick() {
