@@ -8,11 +8,9 @@ async function init() {
     const photos = await api.loadPhotos();
     photoFilter.init(photos);
 
-    // Первоначальная отрисовка с фильтром по умолчанию
     const initialPhotos = photoFilter.getFilteredPhotos();
     thumbnailRenderer.renderThumbnails(initialPhotos);
 
-    // Обработчик изменения фильтра
     setupFilterHandler();
   } catch (error) {
     thumbnailRenderer.showLoadError(error.message);
