@@ -1,4 +1,5 @@
 import { imageEditor } from './image-editor.js';
+import { imageUpload } from './image-upload.js';
 import { api } from './api.js';
 
 const formValidator = (function() {
@@ -27,6 +28,7 @@ const formValidator = (function() {
     setupEventListeners();
     setupValidation();
     imageEditor.init();
+    imageUpload.init();
   }
 
   function setupEventListeners() {
@@ -147,6 +149,7 @@ const formValidator = (function() {
     uploadForm.reset();
     pristine.reset();
     imageEditor.resetEditor();
+    imageUpload.reset();
   }
 
   function onUploadCancelClick() {
