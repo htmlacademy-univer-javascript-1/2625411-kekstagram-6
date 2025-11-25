@@ -1,10 +1,15 @@
 import { thumbnailRenderer } from './thumbnail-renderer.js';
-import { mockPhotos } from './mock-data.js';
 import { formValidator } from './form-validator.js';
+import { api } from './api.js';
 
-function init() {
-  const picturesContainer = document.querySelector('.pictures');
-  thumbnailRenderer.renderThumbnails(mockPhotos, picturesContainer);
+async function init() {
+  try {
+    const photos = await api.loadPhotos();
+    thumbnailRenderer.renderThumbnails(photos);
+  } catch (error) {
+    thumbnailRenderer.showLoadError(error.message);
+  }
+
   formValidator.init();
 }
 
