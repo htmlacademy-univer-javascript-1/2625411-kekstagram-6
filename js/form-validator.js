@@ -1,4 +1,5 @@
 import { imageEditor } from './image-editor.js';
+import { api } from './api.js';
 
 const formValidator = (function() {
   const uploadForm = document.querySelector('.img-upload__form');
@@ -9,6 +10,9 @@ const formValidator = (function() {
   const hashtagsInput = uploadForm.querySelector('.text__hashtags');
   const descriptionInput = uploadForm.querySelector('.text__description');
   const submitButton = uploadForm.querySelector('.img-upload__submit');
+
+  const successTemplate = document.querySelector('#success').content.querySelector('.success');
+  const errorTemplate = document.querySelector('#error').content.querySelector('.error');
 
   const pristine = new Pristine(uploadForm, {
     classTo: 'img-upload__field-wrapper',
@@ -149,25 +153,92 @@ const formValidator = (function() {
     hideForm();
   }
 
-  function onFormSubmit(evt) {
+  async function onFormSubmit(evt) {
     evt.preventDefault();
 
     const isValid = pristine.validate();
 
     if (isValid) {
-      blockSubmitButton();
-      uploadForm.submit();
+      await sendFormData();
+    }
+  }
+
+  async function sendFormData() {
+    const formData = new FormData(uploadForm);
+
+    blockSubmitButton();
+
+    try {
+      await api.sendPhoto(formData);
+      hideForm();
+      showSuccessMessage();
+    } catch (error) {
+      showErrorMessage(error.message);
+    } finally {
+      unblockSubmitButton();
     }
   }
 
   function blockSubmitButton() {
     submitButton.disabled = true;
     submitButton.textContent = 'Публикую...';
+  }
 
-    setTimeout(() => {
-      submitButton.disabled = false;
-      submitButton.textContent = 'Опубликовать';
-    }, 5000);
+  function unblockSubmitButton() {
+    submitButton.disabled = false;
+    submitButton.textContent = 'Опубликовать';
+  }
+
+  function showSuccessMessage() {
+    const successElement = successTemplate.cloneNode(true);
+    const successButton = successElement.querySelector('.success__button');
+
+    successButton.addEventListener('click', () => {
+      successElement.remove();
+    });
+
+    successElement.addEventListener('click', (evt) => {
+      if (evt.target === successElement) {
+        successElement.remove();
+      }
+    });
+
+    document.addEventListener('keydown', function onEscKeydown(evt) {
+      if (evt.key === 'Escape') {
+        successElement.remove();
+        document.removeEventListener('keydown', onEscKeydown);
+      }
+    });
+
+    document.body.appendChild(successElement);
+  }
+
+  function showErrorMessage(message) {
+    const errorElement = errorTemplate.cloneNode(true);
+    const errorTitle = errorElement.querySelector('.error__title');
+    const errorButton = errorElement.querySelector('.error__button');
+
+    errorTitle.textContent = message;
+    errorButton.textContent = 'Попробовать снова';
+
+    errorButton.addEventListener('click', () => {
+      errorElement.remove();
+    });
+
+    errorElement.addEventListener('click', (evt) => {
+      if (evt.target === errorElement) {
+        errorElement.remove();
+      }
+    });
+
+    document.addEventListener('keydown', function onEscKeydown(evt) {
+      if (evt.key === 'Escape') {
+        errorElement.remove();
+        document.removeEventListener('keydown', onEscKeydown);
+      }
+    });
+
+    document.body.appendChild(errorElement);
   }
 
   function onDocumentKeydown(evt) {
