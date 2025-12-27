@@ -1,33 +1,37 @@
-import { thumbnailRenderer } from './thumbnail-renderer.js';
-import { formValidator } from './form-validator.js';
-import { photoFilter } from './photo-filter.js';
-import { api } from './api.js';
+import { getData } from './api.js';
+import { renderThumbnails } from './thumbnails.js';
+import { initFilters } from './filters.js';
+import './form.js';
 
-async function init() {
-  try {
-    const photos = await api.loadPhotos();
-    photoFilter.init(photos);
+const picturesContainerElement = document.querySelector('.pictures');
 
-    const initialPhotos = photoFilter.getFilteredPhotos();
-    thumbnailRenderer.renderThumbnails(initialPhotos);
+const showErrorMessage = (message) => {
+  const errorTemplateElement = document.querySelector('#error').content.querySelector('.error');
+  const errorElement = errorTemplateElement.cloneNode(true);
+  errorElement.classList.add('data-error');
+  const errorTitleElement = errorElement.querySelector('.error__title');
+  const errorButtonElement = errorElement.querySelector('.error__button');
 
-    setupFilterHandler();
-  } catch (error) {
-    thumbnailRenderer.showLoadError(error.message);
-  }
+  errorTitleElement.textContent = message;
+  errorButtonElement.textContent = 'Попробовать снова';
 
-  formValidator.init();
-}
-
-function setupFilterHandler() {
-  const filtersForm = document.querySelector('.img-filters__form');
-
-  filtersForm.addEventListener('click', (evt) => {
-    if (evt.target.classList.contains('img-filters__button')) {
-      const filteredPhotos = photoFilter.getFilteredPhotos();
-      thumbnailRenderer.renderThumbnails(filteredPhotos);
-    }
+  errorButtonElement.addEventListener('click', () => {
+    document.location.reload();
   });
-}
 
-document.addEventListener('DOMContentLoaded', init);
+  document.body.appendChild(errorElement);
+};
+
+const loadAndRenderPhotos = async () => {
+  try {
+    const photosArray = await getData();
+    initFilters(photosArray);
+    renderThumbnails(photosArray, picturesContainerElement);
+  } catch (error) {
+    showErrorMessage(error.message);
+  }
+};
+
+document.addEventListener('DOMContentLoaded', () => {
+  loadAndRenderPhotos();
+});

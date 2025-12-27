@@ -1,16 +1,12 @@
-const getRandomInteger = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
+const isEscapeKey = (evt) => evt.key === 'Escape';
 
-const getRandomArrayElement = (elements) => elements[getRandomInteger(0, elements.length - 1)];
+const debounce = (callback, timeoutDelay = 500) => {
+  let timeoutId;
 
-const usedIds = [];
-
-const getUniqueId = (min, max) => {
-  let id = getRandomInteger(min, max);
-  while (usedIds.includes(id)) {
-    id = getRandomInteger(min, max);
-  }
-  usedIds.push(id);
-  return id;
+  return (...rest) => {
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => callback.apply(this, rest), timeoutDelay);
+  };
 };
 
-export { getRandomInteger, getRandomArrayElement, getUniqueId };
+export { isEscapeKey, debounce };
